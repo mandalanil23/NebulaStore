@@ -1,0 +1,306 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nebula Software Store — Premium Software Marketplace</title>
+<meta name="description" content="Buy genuine, instantly-delivered software licenses — antivirus, office suites, design tools, dev tools and more.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- ============ NAVBAR ============ -->
+<header class="navbar" id="navbar">
+  <div class="nav-inner">
+    <button class="filter-toggle" id="filterToggle" aria-label="Open filters">
+      <i class="fa-solid fa-sliders"></i>
+      <span class="filter-toggle-label">Filters</span>
+    </button>
+
+    <a href="#home" class="logo">
+      <span class="logo-mark">
+        <i class="fa-solid fa-cube"></i>
+      </span>
+      <span class="logo-text">Nebula<span class="logo-accent">Store</span></span>
+    </a>
+
+    <nav class="nav-links">
+      <a href="#catalog">Catalog</a>
+      <a href="#trust">Why Us</a>
+      <a href="#testimonials">Reviews</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+
+    <div class="nav-actions">
+      <div class="search-wrap">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search software…" autocomplete="off">
+        <div id="searchSuggestions" class="search-suggestions"></div>
+      </div>
+      <button class="cart-btn" id="cartBtn" aria-label="Open cart">
+        <i class="fa-solid fa-cart-shopping"></i>
+        <span class="cart-badge" id="cartBadge">0</span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<!-- ============ FILTER PANEL (slide from left) ============ -->
+<aside class="filter-panel" id="filterPanel">
+  <div class="filter-panel-head">
+    <h3>Refine results</h3>
+    <button id="filterClose" class="icon-btn" aria-label="Close filters"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+
+  <div class="filter-group">
+    <h4>Category</h4>
+    <div id="categoryList" class="category-list"></div>
+  </div>
+
+  <div class="filter-group">
+    <h4>Price range</h4>
+    <div class="price-range-display">
+      <span>₹<span id="priceMinLabel">0</span></span>
+      <span>₹<span id="priceMaxLabel">6000</span></span>
+    </div>
+    <input type="range" id="priceMin" min="0" max="6000" step="100" value="0">
+    <input type="range" id="priceMax" min="0" max="6000" step="100" value="6000">
+  </div>
+
+  <div class="filter-group">
+    <h4>Sort by</h4>
+    <select id="sortSelect" class="sort-select">
+      <option value="default">Featured</option>
+      <option value="price-asc">Price: Low to High</option>
+      <option value="price-desc">Price: High to Low</option>
+      <option value="popularity">Popularity</option>
+      <option value="newest">Newest</option>
+    </select>
+  </div>
+
+  <button id="filterReset" class="btn-ghost full-width">Reset filters</button>
+</aside>
+<div class="overlay" id="filterOverlay"></div>
+
+<!-- ============ HERO ============ -->
+<section class="hero" id="home">
+  <div class="hero-bg" id="heroBg" aria-hidden="true">
+    <div class="orb orb-purple"></div>
+    <div class="orb orb-cyan"></div>
+    <div class="orb orb-orange"></div>
+    <div class="grid-floor"></div>
+  </div>
+
+  <div class="hero-content">
+    <span class="eyebrow"><i class="fa-solid fa-bolt"></i> Instant digital delivery</span>
+    <h1 class="hero-title">Software, shipped <span class="grad-text">at the speed of light.</span></h1>
+    <p class="hero-sub">Genuine licenses for security, design, productivity &amp; dev tools — unlocked the second you pay. No discs, no waiting, no nonsense.</p>
+    <div class="hero-cta-row">
+      <a href="#catalog" class="btn-primary">Shop Now <i class="fa-solid fa-arrow-right"></i></a>
+      <a href="#trust" class="btn-secondary">Why Nebula?</a>
+    </div>
+    <div class="hero-stats">
+      <div><strong>25+</strong><span>Software titles</span></div>
+      <div><strong>40k+</strong><span>Licenses delivered</span></div>
+      <div><strong>4.8★</strong><span>Average rating</span></div>
+    </div>
+  </div>
+
+  <div class="hero-floaters" aria-hidden="true">
+    <div class="float-card float-card-1"><i class="fa-solid fa-shield-halved"></i><span>SecureGuard</span></div>
+    <div class="float-card float-card-2"><i class="fa-solid fa-palette"></i><span>PixelCraft</span></div>
+    <div class="float-card float-card-3"><i class="fa-solid fa-code"></i><span>CodeForge</span></div>
+  </div>
+</section>
+
+<!-- ============ ACTIVE FILTER CHIPS / RESULT COUNT ============ -->
+<section class="catalog-head" id="catalog">
+  <div class="catalog-head-inner">
+    <div>
+      <h2>Full catalog</h2>
+      <p id="resultCount" class="result-count">Showing 25 products</p>
+    </div>
+    <div id="activeChips" class="active-chips"></div>
+  </div>
+</section>
+
+<!-- ============ PRODUCT GRID ============ -->
+<section class="catalog">
+  <div id="productGrid" class="product-grid"></div>
+  <p id="noResults" class="no-results hidden">No software matches your search. Try a different keyword or reset your filters.</p>
+</section>
+
+<!-- ============ TRUST BADGES ============ -->
+<section class="trust" id="trust">
+  <div class="trust-inner">
+    <div class="trust-card">
+      <i class="fa-solid fa-lock"></i>
+      <h3>Secure payments</h3>
+      <p>256-bit encrypted checkout powered by Razorpay. Your card details never touch our servers.</p>
+    </div>
+    <div class="trust-card">
+      <i class="fa-solid fa-bolt"></i>
+      <h3>Instant delivery</h3>
+      <p>License keys and download links land in your inbox seconds after payment confirms.</p>
+    </div>
+    <div class="trust-card">
+      <i class="fa-solid fa-headset"></i>
+      <h3>24/7 support</h3>
+      <p>Real humans, real fast — activation help and refund queries answered around the clock.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ============ TESTIMONIALS ============ -->
+<section class="testimonials" id="testimonials">
+  <h2>Loved by builders &amp; teams</h2>
+  <div class="testimonial-track-wrap">
+    <button class="t-arrow t-arrow-left" id="tPrev" aria-label="Previous review"><i class="fa-solid fa-chevron-left"></i></button>
+    <div class="testimonial-track" id="testimonialTrack"></div>
+    <button class="t-arrow t-arrow-right" id="tNext" aria-label="Next review"><i class="fa-solid fa-chevron-right"></i></button>
+  </div>
+  <div class="t-dots" id="tDots"></div>
+</section>
+
+<!-- ============ FAQ ============ -->
+<section class="faq" id="faq">
+  <h2>Frequently asked questions</h2>
+  <div id="faqList" class="faq-list"></div>
+</section>
+
+<!-- ============ FOOTER ============ -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-col footer-brand">
+      <a href="#home" class="logo">
+        <span class="logo-mark"><i class="fa-solid fa-cube"></i></span>
+        <span class="logo-text">Nebula<span class="logo-accent">Store</span></span>
+      </a>
+      <p>A premium marketplace for genuine, instantly-delivered software licenses.</p>
+      <div class="social-icons">
+        <a href="#" aria-label="Twitter"><i class="fa-brands fa-twitter"></i></a>
+        <a href="#" aria-label="Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin"></i></a>
+        <a href="#" aria-label="YouTube"><i class="fa-brands fa-youtube"></i></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>About</h4>
+      <a href="#">Our story</a>
+      <a href="#">Careers</a>
+      <a href="#">Press kit</a>
+      <a href="#">Partners</a>
+    </div>
+    <div class="footer-col">
+      <h4>Quick links</h4>
+      <a href="#catalog">Catalog</a>
+      <a href="#trust">Why Us</a>
+      <a href="#faq">FAQ</a>
+      <a href="admin.html">Admin panel</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="mailto:support@nebulastore.dev"><i class="fa-solid fa-envelope"></i> support@nebulastore.dev</a>
+      <a href="tel:+911234567890"><i class="fa-solid fa-phone"></i> +91 12345 67890</a>
+      <p class="footer-note">Mon–Sat, 9am–9pm IST</p>
+    </div>
+    <div class="footer-col footer-newsletter">
+      <h4>Stay in the loop</h4>
+      <p>Deals, new releases, zero spam.</p>
+      <form id="newsletterForm" class="newsletter-form">
+        <input type="email" placeholder="you@email.com" required>
+        <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+      </form>
+      <p id="newsletterMsg" class="newsletter-msg"></p>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2026 NebulaStore. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- ============ CART PANEL ============ -->
+<div class="overlay" id="cartOverlay"></div>
+<aside class="cart-panel" id="cartPanel">
+  <div class="cart-head">
+    <h3><i class="fa-solid fa-cart-shopping"></i> Your cart</h3>
+    <button id="cartClose" class="icon-btn" aria-label="Close cart"><i class="fa-solid fa-xmark"></i></button>
+  </div>
+  <div id="cartItems" class="cart-items"></div>
+  <div id="cartEmpty" class="cart-empty hidden">
+    <i class="fa-solid fa-cart-shopping"></i>
+    <p>Your cart is empty.</p>
+    <span>Add some software to get started.</span>
+  </div>
+  <div class="cart-footer">
+    <div class="cart-subtotal-row">
+      <span>Subtotal</span>
+      <strong id="cartSubtotal">₹0</strong>
+    </div>
+    <button id="checkoutBtn" class="btn-primary full-width" disabled>Proceed to Checkout</button>
+  </div>
+</aside>
+
+<!-- ============ CHECKOUT MODAL ============ -->
+<div class="overlay" id="checkoutOverlay"></div>
+<div class="modal" id="checkoutModal" role="dialog" aria-modal="true" aria-labelledby="checkoutTitle">
+  <button class="icon-btn modal-close" id="checkoutClose" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
+  <h3 id="checkoutTitle">Almost there</h3>
+  <p class="modal-sub">Tell us where to send your license &amp; receipt.</p>
+
+  <form id="checkoutForm" novalidate>
+    <label class="field">
+      <span>Full Name</span>
+      <input type="text" id="custName" name="custName" placeholder="Ada Lovelace">
+      <span class="field-error" id="errName"></span>
+    </label>
+    <label class="field">
+      <span>Mobile Number</span>
+      <input type="tel" id="custMobile" name="custMobile" placeholder="9876543210" maxlength="10">
+      <span class="field-error" id="errMobile"></span>
+    </label>
+    <label class="field">
+      <span>Email ID</span>
+      <input type="email" id="custEmail" name="custEmail" placeholder="ada@email.com">
+      <span class="field-error" id="errEmail"></span>
+    </label>
+
+    <div class="modal-total-row">
+      <span>Order total</span>
+      <strong id="modalTotal">₹0</strong>
+    </div>
+
+    <button type="submit" class="btn-primary full-width">Continue to Payment <i class="fa-solid fa-lock"></i></button>
+  </form>
+</div>
+
+<!-- ============ ORDER CONFIRMATION MODAL ============ -->
+<div class="overlay" id="confirmOverlay"></div>
+<div class="modal confirm-modal" id="confirmModal" role="dialog" aria-modal="true">
+  <div id="confirmSuccess" class="confirm-state hidden">
+    <div class="confirm-icon success"><i class="fa-solid fa-check"></i></div>
+    <h3>Payment successful!</h3>
+    <p id="confirmMsg">Your license has been emailed to you.</p>
+    <p class="confirm-order-id" id="confirmOrderId"></p>
+    <button class="btn-primary full-width" id="confirmClose">Continue shopping</button>
+  </div>
+  <div id="confirmFail" class="confirm-state hidden">
+    <div class="confirm-icon fail"><i class="fa-solid fa-xmark"></i></div>
+    <h3>Payment didn't go through</h3>
+    <p>No amount was deducted. You can try again whenever you're ready.</p>
+    <button class="btn-primary full-width" id="retryPayment">Retry payment</button>
+    <button class="btn-ghost full-width" id="cancelPayment">Cancel</button>
+  </div>
+</div>
+
+<!-- Razorpay checkout script -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script src="data.js"></script>
+<script src="script.js"></script>
+</body>
+</html>

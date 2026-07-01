@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NebulaStore Admin</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="admin.css">
+</head>
+<body class="admin-body">
+
+<!-- ============ LOGIN SCREEN ============ -->
+<div id="loginScreen" class="login-screen">
+  <form id="loginForm" class="login-card">
+    <span class="logo-mark login-mark"><i class="fa-solid fa-cube"></i></span>
+    <h1>Admin sign in</h1>
+    <p class="login-sub">Manage products, orders &amp; customers.</p>
+    <label class="field">
+      <span>Username</span>
+      <input type="text" id="loginUser" placeholder="admin" autocomplete="username">
+    </label>
+    <label class="field">
+      <span>Password</span>
+      <input type="password" id="loginPass" placeholder="••••••••" autocomplete="current-password">
+    </label>
+    <span class="field-error" id="loginError"></span>
+    <button type="submit" class="btn-primary full-width">Sign in</button>
+    <p class="login-hint">Demo credentials — username: <strong>admin</strong>, password: <strong>admin123</strong></p>
+  </form>
+</div>
+
+<!-- ============ ADMIN APP ============ -->
+<div id="adminApp" class="admin-app hidden">
+
+  <aside class="admin-sidebar">
+    <a href="index.html" class="logo">
+      <span class="logo-mark"><i class="fa-solid fa-cube"></i></span>
+      <span class="logo-text">Nebula<span class="logo-accent">Admin</span></span>
+    </a>
+    <nav class="admin-nav">
+      <button class="admin-nav-btn active" data-tab="dashboard"><i class="fa-solid fa-chart-line"></i> Dashboard</button>
+      <button class="admin-nav-btn" data-tab="products"><i class="fa-solid fa-boxes-stacked"></i> Manage Software</button>
+      <button class="admin-nav-btn" data-tab="orders"><i class="fa-solid fa-receipt"></i> Orders &amp; Payments</button>
+      <button class="admin-nav-btn" data-tab="customers"><i class="fa-solid fa-users"></i> Customers</button>
+    </nav>
+    <a href="index.html" class="admin-view-store"><i class="fa-solid fa-arrow-up-right-from-square"></i> View store</a>
+    <button id="logoutBtn" class="admin-logout"><i class="fa-solid fa-right-from-bracket"></i> Log out</button>
+  </aside>
+
+  <main class="admin-main">
+
+    <!-- ---------- DASHBOARD ---------- -->
+    <section id="tab-dashboard" class="admin-tab">
+      <h2>Dashboard overview</h2>
+      <p class="admin-sub">A snapshot of how the store is performing.</p>
+      <p class="admin-note"><i class="fa-solid fa-circle-info"></i> This demo persists data in your browser's <code>localStorage</code>. A production build needs a real backend + database (Node.js + MongoDB/MySQL) so data is shared across devices and admins.</p>
+
+      <div class="stat-grid">
+        <div class="stat-card">
+          <i class="fa-solid fa-indian-rupee-sign"></i>
+          <div><strong id="statSales">₹0</strong><span>Total sales</span></div>
+        </div>
+        <div class="stat-card">
+          <i class="fa-solid fa-receipt"></i>
+          <div><strong id="statOrders">0</strong><span>Total orders</span></div>
+        </div>
+        <div class="stat-card">
+          <i class="fa-solid fa-users"></i>
+          <div><strong id="statCustomers">0</strong><span>Total customers</span></div>
+        </div>
+        <div class="stat-card">
+          <i class="fa-solid fa-boxes-stacked"></i>
+          <div><strong id="statProducts">0</strong><span>Active listings</span></div>
+        </div>
+      </div>
+
+      <div class="admin-panel">
+        <h3>Revenue, last 7 orders</h3>
+        <div id="revenueChart" class="revenue-chart"></div>
+      </div>
+    </section>
+
+    <!-- ---------- MANAGE SOFTWARE ---------- -->
+    <section id="tab-products" class="admin-tab hidden">
+      <div class="admin-tab-head">
+        <div>
+          <h2>Manage software</h2>
+          <p class="admin-sub">Add, edit or remove catalog listings.</p>
+        </div>
+        <button id="addProductBtn" class="btn-primary"><i class="fa-solid fa-plus"></i> Add software</button>
+      </div>
+      <div class="admin-panel table-wrap">
+        <table class="admin-table">
+          <thead><tr><th></th><th>Name</th><th>Category</th><th>Price</th><th>Rating</th><th></th></tr></thead>
+          <tbody id="productsTableBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <!-- ---------- ORDERS ---------- -->
+    <section id="tab-orders" class="admin-tab hidden">
+      <h2>Orders &amp; payments</h2>
+      <p class="admin-sub">Every checkout made on the storefront.</p>
+      <div class="admin-panel table-wrap">
+        <table class="admin-table">
+          <thead><tr><th>Order ID</th><th>Customer</th><th>Mobile</th><th>Email</th><th>Software</th><th>Amount</th><th>Status</th><th>Date</th></tr></thead>
+          <tbody id="ordersTableBody"></tbody>
+        </table>
+        <p id="ordersEmpty" class="admin-empty hidden">No orders yet — they'll show up here as customers check out.</p>
+      </div>
+    </section>
+
+    <!-- ---------- CUSTOMERS ---------- -->
+    <section id="tab-customers" class="admin-tab hidden">
+      <h2>Customers</h2>
+      <p class="admin-sub">Everyone who has completed checkout.</p>
+      <div class="admin-panel table-wrap">
+        <table class="admin-table">
+          <thead><tr><th>Name</th><th>Mobile</th><th>Email</th><th>Customer since</th></tr></thead>
+          <tbody id="customersTableBody"></tbody>
+        </table>
+        <p id="customersEmpty" class="admin-empty hidden">No customers yet.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<!-- ============ PRODUCT FORM MODAL ============ -->
+<div class="overlay" id="productOverlay"></div>
+<div class="modal" id="productModal">
+  <button class="icon-btn modal-close" id="productModalClose"><i class="fa-solid fa-xmark"></i></button>
+  <h3 id="productModalTitle">Add software</h3>
+  <form id="productForm">
+    <input type="hidden" id="prodId">
+    <label class="field"><span>Name</span><input type="text" id="prodName" required></label>
+    <label class="field"><span>Category</span><input type="text" id="prodCategory" required></label>
+    <label class="field"><span>Price (₹)</span><input type="number" id="prodPrice" min="0" required></label>
+    <label class="field"><span>Short description</span><input type="text" id="prodDesc" required></label>
+    <label class="field"><span>Icon (Font Awesome class, e.g. fa-shield-halved)</span><input type="text" id="prodIcon" placeholder="fa-shield-halved" required></label>
+    <button type="submit" class="btn-primary full-width">Save software</button>
+  </form>
+</div>
+
+<script src="data.js"></script>
+<script src="admin.js"></script>
+</body>
+</html>

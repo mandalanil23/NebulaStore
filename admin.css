@@ -1,0 +1,143 @@
+/* ===========================================================
+   NEBULA STORE — admin.css
+   Extends style.css (shared tokens, buttons, fields, modal).
+   =========================================================== */
+
+.admin-body{min-height:100vh;}
+
+/* ----------------------- Login screen ----------------------- */
+.login-screen{
+  min-height:100vh; display:flex; align-items:center; justify-content:center;
+  padding:1.5rem;
+  background:
+    radial-gradient(circle at 15% 20%, rgba(124,92,252,0.25), transparent 45%),
+    radial-gradient(circle at 85% 80%, rgba(52,224,224,0.18), transparent 45%),
+    var(--bg-deep);
+}
+.login-card{
+  width:380px; max-width:100%;
+  background:var(--bg-surface-2);
+  border:1px solid var(--border-soft);
+  border-radius:var(--radius-lg);
+  padding:2.4rem;
+  box-shadow:var(--shadow-float);
+  text-align:center;
+}
+.login-mark{width:48px; height:48px; border-radius:14px; font-size:1.3rem; margin:0 auto 1.2rem;}
+.login-card h1{font-family:var(--font-display); font-size:1.4rem; margin-bottom:.3rem;}
+.login-sub{color:var(--text-low); font-size:.85rem; margin-bottom:1.6rem;}
+.login-card .field{text-align:left;}
+.login-card #loginError{display:block; min-height:1.2em; color:var(--orange-deep); font-size:.78rem; margin-bottom:.8rem;}
+.login-hint{color:var(--text-low); font-size:.75rem; margin-top:1.2rem; line-height:1.5;}
+.login-hint strong{color:var(--cyan); font-family:var(--font-mono);}
+
+/* ----------------------- App shell ----------------------- */
+.admin-app{display:flex; min-height:100vh;}
+
+.admin-sidebar{
+  width:240px; flex-shrink:0;
+  background:var(--bg-surface);
+  border-right:1px solid var(--border-soft);
+  padding:1.6rem 1.2rem;
+  display:flex; flex-direction:column; gap:1.6rem;
+  position:sticky; top:0; height:100vh;
+}
+.admin-nav{display:flex; flex-direction:column; gap:.3rem; flex:1;}
+.admin-nav-btn{
+  display:flex; align-items:center; gap:.7rem;
+  padding:.7rem .9rem; border-radius:var(--radius-sm);
+  font-size:.88rem; font-weight:500; color:var(--text-mid);
+  text-align:left;
+  transition:background .2s ease, color .2s ease;
+}
+.admin-nav-btn i{width:18px; text-align:center;}
+.admin-nav-btn:hover{background:rgba(255,255,255,0.05); color:var(--text-hi);}
+.admin-nav-btn.active{background:rgba(124,92,252,0.18); color:var(--text-hi);}
+.admin-view-store, .admin-logout{
+  display:flex; align-items:center; gap:.6rem;
+  padding:.7rem .9rem; border-radius:var(--radius-sm);
+  font-size:.82rem; color:var(--text-low);
+  transition:background .2s ease, color .2s ease;
+}
+.admin-view-store:hover, .admin-logout:hover{background:rgba(255,255,255,0.05); color:var(--text-hi);}
+
+.admin-main{flex:1; padding:2.2rem 2.6rem; max-width:1300px;}
+.admin-tab h2{font-family:var(--font-display); font-size:1.6rem;}
+.admin-sub{color:var(--text-low); font-size:.88rem; margin-top:.3rem; margin-bottom:1.6rem;}
+.admin-tab-head{display:flex; justify-content:space-between; align-items:flex-start; gap:1rem; flex-wrap:wrap;}
+
+.admin-note{
+  display:flex; align-items:center; gap:.6rem;
+  background:rgba(255,138,76,0.1); border:1px solid rgba(255,138,76,0.3);
+  color:var(--text-mid); font-size:.82rem;
+  padding:.8rem 1rem; border-radius:var(--radius-sm);
+  margin-bottom:1.8rem;
+}
+.admin-note i{color:var(--orange); flex-shrink:0;}
+.admin-note code{font-family:var(--font-mono); background:rgba(255,255,255,0.08); padding:.1rem .4rem; border-radius:4px;}
+
+/* ----------------------- Stat cards ----------------------- */
+.stat-grid{display:grid; grid-template-columns:repeat(4,1fr); gap:1.2rem; margin-bottom:2rem;}
+@media (max-width:900px){.stat-grid{grid-template-columns:repeat(2,1fr);}}
+.stat-card{
+  display:flex; align-items:center; gap:1rem;
+  background:var(--bg-card); border:1px solid var(--border-soft); border-radius:var(--radius-lg);
+  padding:1.4rem;
+}
+.stat-card i{
+  width:46px; height:46px; border-radius:12px; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; font-size:1.2rem; color:#fff;
+  background:var(--grad-primary);
+}
+.stat-card strong{display:block; font-family:var(--font-display); font-size:1.3rem;}
+.stat-card span{font-size:.78rem; color:var(--text-low);}
+
+.admin-panel{
+  background:var(--bg-card); border:1px solid var(--border-soft); border-radius:var(--radius-lg);
+  padding:1.6rem;
+}
+.admin-panel h3{font-family:var(--font-display); font-size:1.05rem; margin-bottom:1.2rem;}
+
+/* ----------------------- Revenue bars ----------------------- */
+.revenue-chart{display:flex; align-items:flex-end; gap:.9rem; height:180px; padding-top:1rem;}
+.rev-bar-wrap{flex:1; display:flex; flex-direction:column; align-items:center; gap:.5rem; height:100%; justify-content:flex-end;}
+.rev-bar{
+  width:100%; max-width:42px; border-radius:8px 8px 0 0;
+  background:var(--grad-primary);
+  transition:height .5s ease;
+}
+.rev-bar-label{font-size:.7rem; color:var(--text-low); font-family:var(--font-mono); text-align:center;}
+.rev-empty{color:var(--text-low); font-size:.85rem; text-align:center; width:100%; padding:2rem 0;}
+
+/* ----------------------- Tables ----------------------- */
+.table-wrap{overflow-x:auto;}
+.admin-table{width:100%; border-collapse:collapse; min-width:640px;}
+.admin-table th{
+  text-align:left; font-size:.72rem; text-transform:uppercase; letter-spacing:.05em;
+  color:var(--text-low); padding:.7rem .8rem; border-bottom:1px solid var(--border-soft);
+}
+.admin-table td{padding:.85rem .8rem; border-bottom:1px solid var(--border-soft); font-size:.85rem; vertical-align:middle;}
+.admin-table tr:last-child td{border-bottom:none;}
+.table-icon{
+  width:34px; height:34px; border-radius:9px; display:flex; align-items:center; justify-content:center;
+  color:#fff; font-size:.9rem;
+}
+.status-pill{
+  display:inline-flex; padding:.25rem .65rem; border-radius:50px; font-size:.72rem; font-weight:600;
+  background:rgba(31,200,166,0.18); color:var(--teal);
+}
+.row-actions{display:flex; gap:.5rem;}
+.row-actions button{
+  width:30px; height:30px; border-radius:8px; border:1px solid var(--border-soft);
+  display:flex; align-items:center; justify-content:center; font-size:.78rem; color:var(--text-mid);
+}
+.row-actions button:hover{background:rgba(255,255,255,0.07); color:var(--text-hi);}
+.row-actions .delete-btn:hover{color:var(--orange-deep); border-color:var(--orange-deep);}
+.admin-empty{color:var(--text-low); font-size:.85rem; text-align:center; padding:2rem 0;}
+
+@media (max-width:880px){
+  .admin-app{flex-direction:column;}
+  .admin-sidebar{width:100%; height:auto; position:relative; flex-direction:row; flex-wrap:wrap; align-items:center;}
+  .admin-nav{flex-direction:row; flex-wrap:wrap;}
+  .admin-main{padding:1.6rem;}
+}
